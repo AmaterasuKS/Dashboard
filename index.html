@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Amaterasu</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="logo.png" alt="Amaterasu logo" />
+        </div>
+        <div class="brand-text">
+          <strong>Amaterasu</strong>
+          <span>Revenue Intelligence</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="tag">Enterprise</div>
+        <button class="btn ghost" id="lang-toggle">RU</button>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <div class="hero-copy">
+          <h1 data-i18n="title">Revenue Command Center</h1>
+          <p data-i18n="subtitle">
+            Deep filters, instant insights, and visual answers for every transaction.
+          </p>
+          <div class="hero-kpis">
+            <div class="kpi">
+              <span data-i18n="kpi_1_label">Total volume</span>
+              <strong id="kpi-volume">$0</strong>
+            </div>
+            <div class="kpi">
+              <span data-i18n="kpi_2_label">Avg transaction</span>
+              <strong id="kpi-avg">$0</strong>
+            </div>
+            <div class="kpi">
+              <span data-i18n="kpi_3_label">Last update</span>
+              <strong id="kpi-last">—</strong>
+            </div>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="glass">
+            <h3 data-i18n="pulse">Live pulse</h3>
+            <canvas id="sparkline" height="120"></canvas>
+            <div class="pulse-metrics">
+              <div>
+                <span data-i18n="active">Active filters</span>
+                <strong id="active-filters">0</strong>
+              </div>
+              <div>
+                <span data-i18n="records">Records</span>
+                <strong id="records-count">0</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="filters">
+        <div class="filters-head">
+          <div>
+            <h2 data-i18n="filters">Filters</h2>
+            <p data-i18n="filters_sub">Build any segment in seconds.</p>
+          </div>
+          <div class="filters-actions">
+            <button class="btn primary" id="apply" data-i18n="apply">Apply</button>
+            <button class="btn ghost" id="reset" data-i18n="reset">Reset</button>
+          </div>
+        </div>
+        <div class="filters-error" id="filters-error"></div>
+        <div class="filters-grid">
+          <label class="field span-2">
+            <span data-i18n="search">Search</span>
+            <input id="search" type="text" placeholder="Account, category, merchant" data-i18n-placeholder="search_ph" />
+          </label>
+
+          <div class="filter-group span-2">
+            <span class="group-label" data-i18n="amount">Amount</span>
+            <div class="group-row">
+              <input id="minAmount" type="number" step="0.01" data-i18n-placeholder="min" />
+              <input id="maxAmount" type="number" step="0.01" data-i18n-placeholder="max" />
+            </div>
+          </div>
+
+          <label class="field span-2">
+            <span data-i18n="type">Type</span>
+            <select id="type"></select>
+          </label>
+
+          <div class="filter-group span-2">
+            <span class="group-label" data-i18n="period">Period (dd/mm/yy)</span>
+            <div class="group-row">
+              <input id="dateFrom" type="text" maxlength="10" inputmode="numeric" data-i18n-placeholder="from" />
+              <input id="dateTo" type="text" maxlength="10" inputmode="numeric" data-i18n-placeholder="to" />
+            </div>
+          </div>
+
+          <div class="filter-group span-2">
+            <span class="group-label" data-i18n="last_tx">Last transaction (dd/mm/yy)</span>
+            <div class="group-row">
+              <input id="lastTxFrom" type="text" maxlength="10" inputmode="numeric" data-i18n-placeholder="from" />
+              <input id="lastTxTo" type="text" maxlength="10" inputmode="numeric" data-i18n-placeholder="to" />
+            </div>
+          </div>
+
+          <div class="filter-group span-2">
+            <span class="group-label" data-i18n="volume">Volume</span>
+            <div class="group-row">
+              <input id="minVolume" type="number" step="0.01" data-i18n-placeholder="min" />
+              <input id="maxVolume" type="number" step="0.01" data-i18n-placeholder="max" />
+            </div>
+          </div>
+
+          <label class="field span-2">
+            <span data-i18n="category">Category</span>
+            <select id="category"></select>
+          </label>
+          <label class="field span-2">
+            <span data-i18n="status">Status</span>
+            <select id="status"></select>
+          </label>
+          <label class="field span-2">
+            <span data-i18n="rows">Rows</span>
+            <input id="take" type="number" min="20" max="500" value="100" />
+          </label>
+        </div>
+      </section>
+
+      <section class="insights">
+        <div class="card wide">
+          <div class="card-head">
+            <h3 data-i18n="chart_volume_day">Volume by day</h3>
+            <div class="chip">30D</div>
+          </div>
+          <canvas id="chart-volume-day" height="130"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h3 data-i18n="chart_volume_cat">Volume by category</h3>
+            <div class="chip">Top 6</div>
+          </div>
+          <canvas id="chart-volume-cat" height="160"></canvas>
+          <div class="mini-list" id="category-mini-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h3 data-i18n="chart_status">Status split</h3>
+            <div class="chip">Realtime</div>
+          </div>
+          <canvas id="chart-status" height="160"></canvas>
+        </div>
+      </section>
+
+      <section class="table-card">
+        <div class="table-head">
+          <div>
+            <h3 data-i18n="transactions">Transactions</h3>
+            <span class="muted" id="table-count">0</span>
+          </div>
+          <div class="table-tools">
+            <div class="chip" id="segment-label">All segments</div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="th_account" data-sort="accountName">Account</th>
+                <th data-i18n="th_category" data-sort="category">Category</th>
+                <th data-i18n="th_status" data-sort="status">Status</th>
+                <th data-i18n="th_type" data-sort="type">Type</th>
+                <th data-i18n="th_amount" data-sort="amount" class="is-active" data-dir="desc">Amount</th>
+                <th data-i18n="th_volume" data-sort="volume">Volume</th>
+                <th data-i18n="th_date" data-sort="transactionDate">Date</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <button class="btn ghost" id="load-more" data-i18n="load_more">View more</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FinOps Dashboard</title>
+    <link rel="stylesheet" href="./css/site.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <nav class="navbar">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">FinOps Dashboard</a>
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-dark">v1</span>
+            <button class="btn btn-outline-light btn-sm" id="lang-toggle" type="button">RU</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container">
+      <main class="pb-3">
+        <section class="hero">
+          <div>
+            <h1 data-i18n="title">Financial Operations Dashboard</h1>
+            <p class="muted" data-i18n="subtitle">Search, filter, and build charts from transaction data.</p>
+          </div>
+          <div class="hero-meta">
+            <div class="pill">
+              <span data-i18n="updated">Last updated</span>
+              <span id="last-updated">—</span>
+            </div>
+            <div class="pill">
+              <span data-i18n="records">Records</span>
+              <span id="records-count">0</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 data-i18n="filters">Filters</h2>
+          <form id="filters" class="filters">
+            <input type="text" id="search" placeholder="Account or category" data-i18n-placeholder="search_placeholder" />
+
+            <div class="grid-2">
+              <div>
+                <label data-i18n="date_from">Date from</label>
+                <input type="date" id="dateFrom" />
+              </div>
+              <div>
+                <label data-i18n="date_to">Date to</label>
+                <input type="date" id="dateTo" />
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <label data-i18n="last_tx_from">Last transaction from</label>
+                <input type="date" id="lastTxFrom" />
+              </div>
+              <div>
+                <label data-i18n="last_tx_to">Last transaction to</label>
+                <input type="date" id="lastTxTo" />
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <label data-i18n="min_volume">Min volume</label>
+                <input type="number" id="minVolume" step="0.01" />
+              </div>
+              <div>
+                <label data-i18n="max_volume">Max volume</label>
+                <input type="number" id="maxVolume" step="0.01" />
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <label data-i18n="min_amount">Min amount</label>
+                <input type="number" id="minAmount" step="0.01" />
+              </div>
+              <div>
+                <label data-i18n="max_amount">Max amount</label>
+                <input type="number" id="maxAmount" step="0.01" />
+              </div>
+            </div>
+
+            <div class="grid-3">
+              <div>
+                <label data-i18n="category">Category</label>
+                <select id="category"></select>
+              </div>
+              <div>
+                <label data-i18n="status">Status</label>
+                <select id="status"></select>
+              </div>
+              <div>
+                <label data-i18n="type">Type</label>
+                <select id="type"></select>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <label data-i18n="rows">Rows</label>
+                <input type="number" id="take" min="20" max="500" value="100" />
+              </div>
+              <div class="chart-toggles">
+                <label data-i18n="charts">Charts</label>
+                <div class="toggle-row">
+                  <label><input type="checkbox" id="chart-line" checked /> <span data-i18n="chart_volume_day">Volume by day</span></label>
+                  <label><input type="checkbox" id="chart-bar" checked /> <span data-i18n="chart_volume_cat">Volume by category</span></label>
+                  <label><input type="checkbox" id="chart-donut" checked /> <span data-i18n="chart_status">Status split</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="btn btn-primary" data-i18n="apply">Apply filters</button>
+              <button type="button" id="reset" class="btn btn-outline-light" data-i18n="reset">Reset</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="summary">
+          <div class="summary-card">
+            <h3 data-i18n="total_tx">Total transactions</h3>
+            <p id="summary-total">0</p>
+          </div>
+          <div class="summary-card">
+            <h3 data-i18n="total_volume">Total volume</h3>
+            <p id="summary-volume">0</p>
+          </div>
+          <div class="summary-card">
+            <h3 data-i18n="avg_amount">Avg amount</h3>
+            <p id="summary-avg">0</p>
+          </div>
+          <div class="summary-card">
+            <h3 data-i18n="last_tx">Last transaction</h3>
+            <p id="summary-last">—</p>
+          </div>
+        </section>
+
+        <section class="charts">
+          <div class="chart-card" id="card-line">
+            <h3 data-i18n="chart_volume_day">Volume by day</h3>
+            <canvas id="chart-volume-day" height="130"></canvas>
+          </div>
+          <div class="chart-card" id="card-bar">
+            <h3 data-i18n="chart_volume_cat">Volume by category</h3>
+            <canvas id="chart-volume-cat" height="130"></canvas>
+          </div>
+          <div class="chart-card" id="card-donut">
+            <h3 data-i18n="chart_status">Status split</h3>
+            <canvas id="chart-status" height="130"></canvas>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="table-header">
+            <h2 data-i18n="transactions">Transactions</h2>
+            <div class="muted" id="table-count">0</div>
+          </div>
+          <div class="table-wrap">
+            <table class="table table-dark table-hover align-middle">
+              <thead>
+                <tr>
+                  <th data-i18n="th_account">Account</th>
+                  <th data-i18n="th_category">Category</th>
+                  <th data-i18n="th_status">Status</th>
+                  <th data-i18n="th_type">Type</th>
+                  <th data-i18n="th_amount">Amount</th>
+                  <th data-i18n="th_volume">Volume</th>
+                  <th data-i18n="th_date">Date</th>
+                </tr>
+              </thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="footer text-muted">
+      <div class="container">&copy; 2026 - FinOps Dashboard</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="./js/dashboard.js"></script>
+  </body>
+</html>
