@@ -23,16 +23,20 @@ No build step required.
 Replace the placeholders below with your own images.
 
 1. **Hero / Overview**
-   <img width="1903" height="626" alt="image" src="https://github.com/user-attachments/assets/78d7361f-a089-42e0-96a8-ae23452d5d28" />
+   <img width="1903" height="609" alt="image" src="https://github.com/user-attachments/assets/272e9e0d-63f5-49a7-920a-a7421b4ecaaf" />
+
 
 2. **Filters Panel**
-   <img width="1904" height="499" alt="image" src="https://github.com/user-attachments/assets/58e3d57f-cc54-4245-beeb-a97a9a30700b" />
+   <img width="1902" height="493" alt="image" src="https://github.com/user-attachments/assets/b18fc4df-292e-4882-83a3-529125c8dc5d" />
+
 
 3. **Charts Section**
-   <img width="1905" height="551" alt="image" src="https://github.com/user-attachments/assets/8f9c4e59-3369-4760-8ad3-597f370562fb" />
+   <img width="1905" height="540" alt="image" src="https://github.com/user-attachments/assets/151b8c68-d5db-44e0-a04d-309ce6dde87c" />
+
 
 4. **Transactions Table**
-   <img width="1900" height="685" alt="image" src="https://github.com/user-attachments/assets/df685fba-6693-4703-88ed-cb3b49451a21" />
+   <img width="1905" height="688" alt="image" src="https://github.com/user-attachments/assets/1cba7fb1-673c-4200-8a31-1f52233cbc52" />
+
 
 
 
